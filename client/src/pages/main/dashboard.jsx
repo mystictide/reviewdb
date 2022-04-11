@@ -6,9 +6,7 @@ function Dashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user } = useSelector(
-    (state) => state.auth
-  );
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (!user) {
@@ -16,7 +14,7 @@ function Dashboard() {
     }
   }, [user, navigate, dispatch]);
 
-  return <div>dashboard</div>;
+  return <div>dashboard page</div>;
 }
 
 export default Dashboard;

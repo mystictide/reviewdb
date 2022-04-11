@@ -1,4 +1,3 @@
-import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
@@ -15,35 +14,42 @@ const Header = () => {
   };
 
   return (
-    <header className="header">
-      <div className="logo">
-        <Link to="/">Main</Link>
-      </div>
-      <ul>
-        {user ? (
-          <li>
-            <button onClick={onLogout}>
-              <FaSignOutAlt />
-              Logout
-            </button>
-          </li>
-        ) : (
-          <>
-            <li>
-              <Link to="/account/login">
-                <FaSignInAlt />
-                Login
-              </Link>
-            </li>
-            <li>
-              <Link to="/account/register">
-                <FaUser />
-                Register
-              </Link>
-            </li>
-          </>
-        )}
-      </ul>
+    <header>
+      <nav>
+        <div className="logo">
+          <Link to="/">Review Database</Link>
+        </div>
+        <ul>
+          {user ? (
+            // <li>
+            //   <button onClick={onLogout}>
+            //     {/* <FaSignOutAlt /> */}
+            //     LOGOUT
+            //   </button>
+            // </li>
+             <li>
+             <button onClick={onLogout}>
+               LOGOUT
+             </button>
+           </li>
+          ) : (
+            <>
+              <li>
+                <Link to="/account/login">
+                  {/* <FaSignInAlt /> */}
+                  LOGIN
+                </Link>
+              </li>
+              <li>
+                <Link to="/account/register">
+                  {/* <FaUser /> */}
+                  REGISTER
+                </Link>
+              </li>
+            </>
+          )}
+        </ul>
+      </nav>
     </header>
   );
 };

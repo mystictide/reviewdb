@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaSignInAlt } from "react-icons/fa";
 import { login, reset } from "../../features/auth/authSlice";
-import Spinner from '../../components/spinner'
+import Spinner from "../../components/spinner";
 
 function Login() {
   const [formData, setFormData] = useState({

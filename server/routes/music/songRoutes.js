@@ -5,7 +5,7 @@ const {
   setSong,
   updateSong,
   deleteSong,
-} = require("../../controllers/music/SongController");
+} = require("../../controllers/music/songController");
 const { protect } = require("../../middleware/authMiddleware");
 
 router.route("/").get(protect, getSongs).post(protect, setSong);

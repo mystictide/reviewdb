@@ -14,6 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/songs", require("./routes/music/songRoutes"));
+app.use("/api/films", require("./routes/film/filmRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 
 app.use(errorHandler);

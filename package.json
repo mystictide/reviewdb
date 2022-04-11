@@ -12,6 +12,7 @@
   "author": "Furkan Güler",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.26.1",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "dotenv": "^16.0.0",
