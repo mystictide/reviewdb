@@ -1,9 +1,71 @@
 const asyncHandler = require("express-async-handler");
-const Song = require("../../models/music/songModel");
+const axios = require("axios");
+const Music = require("../../models/music/musicModel");
 const User = require("../../models/userModel");
 
+// @desc    Get Auth Token
+// @route   GET /api/music
+// @access  Private
+const getAuthToken = asyncHandler(async (req, res) => {
+  let access = Buffer.from(
+    process.env.SPOTIFY_CLIENT + ":" + process.env.SPOTIFY_SECRET
+  ).toString("base64");
+  let token = "";
+  await axios({
+    method: "POST",
+    url: "https://accounts.spotify.com/api/token",
+    headers: {
+      Authorization: "Basic " + access,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    params: {
+      grant_type: "client_credentials",
+    },
+    json: true,
+  }).then((res) => {
+    token = res.data.access_token;
+  });
+  return token;
+});
+
+// @desc    Get Popular Artists
+// @route   GET /api/music
+// @access  Public
+const getPopularArtists = asyncHandler(async (req, res) => {
+  let token = await getAuthToken();
+  let artists = [];
+  let artistData = [];
+  await axios({
+    method: "GET",
+    url:
+      "https://api.spotify.com/v1/playlists/" +
+      process.env.SPOTIFY_TOPID +
+      "/tracks?limit=20",
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    json: true,
+  }).then((res) => {
+    artists = res.data.items;
+  });
+  artists = artists.map((m) => m.track.album.artists[0].id);
+  await axios({
+    method: "GET",
+    url: "https://api.spotify.com/v1/artists?ids=" + artists,
+    headers: {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    json: true,
+  }).then((res) => {
+    artistData = res.data.artists;
+  });
+  res.status(200).json(artistData);
+});
+
 // @desc    Get Songs
-// @route   GET /api/Songs
+// @route   GET /api/music
 // @access  Private
 const getSongs = asyncHandler(async (req, res) => {
   const Songs = await Song.find({ user: req.user.id });
@@ -11,7 +73,7 @@ const getSongs = asyncHandler(async (req, res) => {
 });
 
 // @desc    Set Songs
-// @route   POST /api/Songs
+// @route   POST /api/music
 // @access  Private
 const setSong = asyncHandler(async (req, res) => {
   if (!req.body.text) {
@@ -27,7 +89,7 @@ const setSong = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update Songs
-// @route   PUT /api/Songs/:id
+// @route   PUT /api/music/:id
 // @access  Private
 const updateSong = asyncHandler(async (req, res) => {
   const Song = await Song.findById(req.params.id);
@@ -54,7 +116,7 @@ const updateSong = asyncHandler(async (req, res) => {
 });
 
 // @desc    Delete Songs
-// @route   DEL /api/Songs/:id
+// @route   DEL /api/music/:id
 // @access  Private
 const deleteSong = asyncHandler(async (req, res) => {
   const Song = await Song.findById(req.params.id);
@@ -80,6 +142,7 @@ const deleteSong = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
+  getPopularArtists,
   getSongs,
   setSong,
   updateSong,

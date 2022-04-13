@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const songSchema = mongoose.Schema(
+const musicSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -15,4 +15,4 @@ const songSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Song", songSchema);
+module.exports = mongoose.model("Music", musicSchema);

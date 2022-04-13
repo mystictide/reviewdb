@@ -1,15 +1,14 @@
 import { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPopularFilms } from "../../features/film/filmSlice";
+import { getPopularArtists } from "../../features/music/musicSlice";
 import ScrollContainer from "react-indiana-drag-scroll";
-import { ReactComponent as TMDB } from "../../content/img/logo/tmdb.svg";
-
-function FilmBox() {
+import SpotifyLogo from "../../content/img/logo/Spotify_Logo_RGB_Green.png";
+function ArtistBox() {
   const dispatch = useDispatch();
-  const { films, isLoading } = useSelector((state) => state.film);
+  const { artists, isLoading } = useSelector((state) => state.music);
 
   useEffect(() => {
-    dispatch(getPopularFilms());
+    dispatch(getPopularArtists());
   }, []);
 
   if (isLoading) {
@@ -19,9 +18,9 @@ function FilmBox() {
   return (
     <div className="popular-container">
       <div className="popular-header">
-        <h3>Popular Films from</h3>
-        <a href="https://www.themoviedb.org/" target="_blank" rel="noreferrer">
-          <TMDB />
+        <h3>Popular Artists from</h3>
+        <a href="https://www.spotify.com/" target="_blank" rel="noreferrer">
+          <img loading="lazy" alt="spotify logo" src={SpotifyLogo} />
         </a>
       </div>
       <ScrollContainer
@@ -29,14 +28,14 @@ function FilmBox() {
         vertical={false}
         hideScrollbars={true}
       >
-        {films?.map((film) => (
-          <Fragment key={film.id}>
+        {artists?.map((artist) => (
+          <Fragment key={artist.id}>
             <div className="box">
               <div>
                 <img
                   loading="lazy"
-                  alt={film.title}
-                  src={"https://image.tmdb.org/t/p/original" + film.poster_path}
+                  alt={artist.name}
+                  src={artist.images[0].url}
                 />
               </div>
             </div>
@@ -47,4 +46,4 @@ function FilmBox() {
   );
 }
 
-export default FilmBox;
+export default ArtistBox;
