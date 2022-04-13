@@ -5,6 +5,7 @@ import Dashboard from "./dashboard";
 import Opener from "../../components/main/opener";
 import FilmBox from "../../components/main/filmBox";
 import ArtistsBox from "../../components/main/artistBox";
+import GameBox from "../../components/main/gameBox";
 
 function Home() {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ function Home() {
       <Opener />
       <FilmBox />
       <ArtistsBox />
+      <GameBox />
     </>
   );
 }

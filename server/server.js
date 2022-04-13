@@ -15,6 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/music", require("./routes/music/musicRoutes"));
 app.use("/api/films", require("./routes/film/filmRoutes"));
+app.use("/api/games", require("./routes/game/gameRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use(errorHandler);
 

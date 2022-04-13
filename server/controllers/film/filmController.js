@@ -15,14 +15,6 @@ const getPopularFilms = asyncHandler(async (req, res) => {
   await axios({
     method: "GET",
     url: url,
-    // headers: {
-    //   Authorization: "Bearer " + code,
-    //   "Content-Type": "application/x-www-form-urlencoded",
-    // },
-    // data: {
-    //   name: "created for " + uname ? uname : uid + ", by Explore Spotify",
-    //   public: false,
-    // },
     json: true,
   }).then((res) => {
     Films = res.data.results;
