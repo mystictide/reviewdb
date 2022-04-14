@@ -12,7 +12,7 @@ const gameSchema = mongoose.Schema(
       required: [true, "Text value is missing"],
     },
   },
-  { timestamps: true }
+  { timestamps: true }, { collection: 'games' }
 );
 
 module.exports = mongoose.model("Game", gameSchema);

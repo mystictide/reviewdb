@@ -12,7 +12,7 @@ const filmSchema = mongoose.Schema(
       required: [true, "Text value is missing"],
     },
   },
-  { timestamps: true }
+  { timestamps: true }, { collection: 'films' }
 );
 
 module.exports = mongoose.model("Film", filmSchema);

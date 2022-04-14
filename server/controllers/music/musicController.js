@@ -2,37 +2,13 @@ const asyncHandler = require("express-async-handler");
 const axios = require("axios");
 const Music = require("../../models/music/musicModel");
 const User = require("../../models/userModel");
-
-// @desc    Get Auth Token
-// @route   GET /api/music
-// @access  Private
-const getAuthToken = asyncHandler(async (req, res) => {
-  let access = Buffer.from(
-    process.env.SPOTIFY_CLIENT + ":" + process.env.SPOTIFY_SECRET
-  ).toString("base64");
-  let token = "";
-  await axios({
-    method: "POST",
-    url: "https://accounts.spotify.com/api/token",
-    headers: {
-      Authorization: "Basic " + access,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    params: {
-      grant_type: "client_credentials",
-    },
-    json: true,
-  }).then((res) => {
-    token = res.data.access_token;
-  });
-  return token;
-});
+const TokenHelpers = require("../../controllers/helpers/tokenHelpers");
 
 // @desc    Get Popular Artists
 // @route   GET /api/music
 // @access  Public
 const getPopularArtists = asyncHandler(async (req, res) => {
-  let token = await getAuthToken();
+  let token = await TokenHelpers.checkToken("Spotify");
   let artists = [];
   let artistData = [];
   await axios({

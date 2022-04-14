@@ -12,7 +12,7 @@ const musicSchema = mongoose.Schema(
       required: [true, "Text value is missing"],
     },
   },
-  { timestamps: true }
+  { timestamps: true }, { collection: 'music' }
 );
 
 module.exports = mongoose.model("Music", musicSchema);
