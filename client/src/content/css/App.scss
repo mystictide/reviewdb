@@ -8,6 +8,12 @@ $bg-darker: #150c18;
 $bg-lighter: #3d1d40;
 $main-color: #d3d0cb;
 $flavor-color: #955cff;
+$num-colors: 100;
+
+@mixin transition {
+    transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease;
+}
 
 @mixin no-select {
     -webkit-touch-callout: none;
@@ -38,6 +44,10 @@ $flavor-color: #955cff;
     80% {
         background-image: url(../img/openers/jeff_buckley.jpg);
     }
+}
+
+@mixin random-bgr() {
+    background: rgb(random(155), random(90), random(155));
 }
 
 * {
@@ -84,6 +94,13 @@ body {
     min-height: 100vh;
     background-color: $bg-lighter;
 
+    .loading {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
     header {
         display: block;
         height: 4rem;
@@ -123,9 +140,12 @@ body {
                         border: none;
                         color: $flavor-color;
                         cursor: pointer;
+                        height: 100%;
                     }
 
+                    @include transition();
                     &:hover {
+                        @include transition();
                         cursor: pointer;
                         position: relative;
                         top: 1px;
@@ -134,6 +154,86 @@ body {
 
                         a {
                             color: $main-color;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .account-container {
+        min-height: 100vh;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 8;
+
+        .acc-overlay {
+            width: 100%;
+            min-height: 100vh;
+            cursor: auto;
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyAQMAAAAk8RryAAAABlBMVEUAAAD///+l2Z/dAAAAAnRSTlP/AOW3MEoAAAAOSURBVBiVY2AYBYMJAAABkAAB2POVPwAAAABJRU5ErkJggg==)
+                repeat 0 0;
+            opacity: 0.8;
+        }
+
+        .account-content {
+            position: absolute;
+            background: url(../img/bg/modal.png);
+            border-radius: 5px;
+            min-width: 400px;
+            padding: 1.7rem 3rem;
+            z-index: 9;
+
+            .heading {
+                font-size: 0.9rem;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+
+                svg {
+                    font-size: 1.8rem;
+                    color: $bg-lighter;
+                    &:hover{
+                        color: $flavor-color;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .form {
+                width: 100%;
+                font-size: 0.9rem;
+                .form-group {
+                    display: flex;
+                    flex-direction: column;
+                    row-gap: 0.8rem;
+
+                    input {
+                        outline: none;
+                        border-radius: 5px;
+                        padding: 0.4rem 2rem;
+                        width: 100%;
+                    }
+                    button {
+                        background-color: $bg-lighter;
+                        color: $main-color;
+                        border: 0;
+                        box-shadow: none;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        margin-top: 15px;
+                        padding: 0.5rem 2rem;
+                        width: 100%;
+                        @include transition();
+
+                        &:hover {
+                            background-color: $flavor-color;
                         }
                     }
                 }
@@ -234,6 +334,13 @@ body {
                     justify-content: center;
                     column-gap: 0.8rem;
                     a {
+                        h2 {
+                            font-size: 1.3rem;
+                            font-family: sans-serif;
+                            font-weight: 700;
+                            color: #33ccff;
+                            text-shadow: 0 1px 3px rgb(0 0 0 / 50%);
+                        }
                         &:hover {
                             position: relative;
                             left: 2px;
@@ -245,6 +352,19 @@ body {
                         svg {
                             width: 60px;
                             height: 30px;
+                        }
+                        svg.twitch {
+                            width: 70px;
+                            height: 30px;
+                        }
+                        svg.artvee {
+                            width: 85px;
+                            height: 30px;
+                        }
+                        svg.olibrary {
+                            width: 120px;
+                            height: 30px;
+                            fill: #fff;
                         }
                     }
                 }
@@ -269,6 +389,15 @@ body {
                         border-radius: 4px;
                         cursor: pointer;
                         opacity: 0.7;
+
+                        @for $i from 0 to $num-colors {
+                            &:nth-child(#{$i}) {
+                                @include random-bgr();
+                            }
+                        }
+
+                        @include transition();
+
                         &:hover {
                             opacity: 1;
                             border-color: $main-color;
@@ -276,6 +405,24 @@ body {
                         img {
                             width: 150px;
                             height: 222px;
+                        }
+                        .poem {
+                            display: flex;
+                            flex-direction: column;
+                            row-gap: 10px;
+                            padding: 0 10px;
+                            white-space: pre-wrap;
+                            text-align: center;
+                            width: 154px;
+                            height: 226px;
+                            align-items: center;
+                            justify-content: center;
+                            h2 {
+                                font-size: 1.1rem;
+                            }
+                            h4 {
+                                font-size: 0.9rem;
+                            }
                         }
                     }
                 }

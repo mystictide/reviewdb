@@ -8,7 +8,7 @@ const Opener = () => {
       </div>
       <div className="opener-welcome">
         <p>
-          The social database for your thoughts on all kinds of art and media.
+          The social database for your thoughts on all kinds of art and media
           <span>
             <Link to="/account/register">Join in</Link>
           </span>

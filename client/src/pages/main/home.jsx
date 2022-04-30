@@ -6,6 +6,9 @@ import Opener from "../../components/main/opener";
 import FilmBox from "../../components/main/filmBox";
 import ArtistsBox from "../../components/main/artistBox";
 import GameBox from "../../components/main/gameBox";
+import PaintingBox from "../../components/main/paintingBox";
+import PoemBox from "../../components/main/poemBox";
+import BookBox from "../../components/main/bookBox";
 
 function Home() {
   const navigate = useNavigate();
@@ -22,7 +25,10 @@ function Home() {
     <>
       <Opener />
       <FilmBox />
+      <BookBox />
       <ArtistsBox />
+      <PoemBox />
+      <PaintingBox />
       <GameBox />
     </>
   );

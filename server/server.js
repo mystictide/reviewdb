@@ -17,6 +17,9 @@ app.use("/api/music", require("./routes/music/musicRoutes"));
 app.use("/api/films", require("./routes/film/filmRoutes"));
 app.use("/api/games", require("./routes/game/gameRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/art/paintings", require("./routes/art/paintingRoutes"));
+app.use("/api/art/poems", require("./routes/art/poemRoutes"));
+app.use("/api/books/", require("./routes/book/bookRoutes"));
 app.use(errorHandler);
 
 app.listen(port, () => console.log(`server started on port: ${port}`));

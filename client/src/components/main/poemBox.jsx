@@ -1,15 +1,14 @@
 import { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPopularGames } from "../../features/game/gameSlice";
+import { getRandomPoems } from "../../features/art/poemSlice";
 import ScrollContainer from "react-indiana-drag-scroll";
-import { ReactComponent as Twitch } from "../../content/img/logo/TwitchExtrudedWordmarkPurple.svg";
 
-function GameBox() {
+function PoemBox() {
   const dispatch = useDispatch();
-  const { games, isLoading } = useSelector((state) => state.game);
+  const { poems, isLoading } = useSelector((state) => state.poem);
 
   useEffect(() => {
-    dispatch(getPopularGames());
+    dispatch(getRandomPoems());
   }, []);
 
   if (isLoading) {
@@ -19,9 +18,9 @@ function GameBox() {
   return (
     <div className="popular-container">
       <div className="popular-header">
-        <h3>Popular Games from</h3>
-        <a href="https://twitch.tv/" target="_blank" rel="noreferrer">
-          <Twitch className="twitch"/>
+        <h3>Selection of Poems from</h3>
+        <a href="https://poetrydb.org/" target="_blank" rel="noreferrer">
+          <h2>PoetryDB</h2>
         </a>
       </div>
       <ScrollContainer
@@ -29,15 +28,12 @@ function GameBox() {
         vertical={false}
         hideScrollbars={true}
       >
-        {games?.map((game) => (
-          <Fragment key={game.id}>
+        {poems?.map((poem) => (
+          <Fragment key={poem.author}>
             <div className="box">
-              <div>
-                <img
-                  loading="lazy"
-                  alt={game.name}
-                  src={game.box_art_url}
-                />
+              <div className="poem">
+                <h2>{poem.author}</h2>
+                <h4>{poem.title}</h4>
               </div>
             </div>
           </Fragment>
@@ -47,4 +43,4 @@ function GameBox() {
   );
 }
 
-export default GameBox;
+export default PoemBox;

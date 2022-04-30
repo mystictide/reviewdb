@@ -1,15 +1,15 @@
 import { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPopularGames } from "../../features/game/gameSlice";
+import { getRandomBooks } from "../../features/book/bookSlice";
 import ScrollContainer from "react-indiana-drag-scroll";
-import { ReactComponent as Twitch } from "../../content/img/logo/TwitchExtrudedWordmarkPurple.svg";
+import { ReactComponent as OL } from "../../content/img/logo/openlibrary.svg";
 
-function GameBox() {
+function BookBox() {
   const dispatch = useDispatch();
-  const { games, isLoading } = useSelector((state) => state.game);
+  const { books, isLoading } = useSelector((state) => state.book);
 
   useEffect(() => {
-    dispatch(getPopularGames());
+    dispatch(getRandomBooks());
   }, []);
 
   if (isLoading) {
@@ -19,9 +19,9 @@ function GameBox() {
   return (
     <div className="popular-container">
       <div className="popular-header">
-        <h3>Popular Games from</h3>
-        <a href="https://twitch.tv/" target="_blank" rel="noreferrer">
-          <Twitch className="twitch"/>
+        <h3>Selection of Books from</h3>
+        <a href="https://openlibrary.org/" target="_blank" rel="noreferrer">
+          <OL className="olibrary"/>
         </a>
       </div>
       <ScrollContainer
@@ -29,14 +29,14 @@ function GameBox() {
         vertical={false}
         hideScrollbars={true}
       >
-        {games?.map((game) => (
-          <Fragment key={game.id}>
+        {books?.map((book) => (
+          <Fragment key={book.id}>
             <div className="box">
               <div>
                 <img
                   loading="lazy"
-                  alt={game.name}
-                  src={game.box_art_url}
+                  alt={book.title}
+                  src={book.cover.large}
                 />
               </div>
             </div>
@@ -47,4 +47,4 @@ function GameBox() {
   );
 }
 
-export default GameBox;
+export default BookBox;

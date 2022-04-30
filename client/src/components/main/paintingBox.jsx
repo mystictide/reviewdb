@@ -1,15 +1,15 @@
 import { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPopularGames } from "../../features/game/gameSlice";
+import { getRandomPaintings } from "../../features/art/paintingSlice";
 import ScrollContainer from "react-indiana-drag-scroll";
-import { ReactComponent as Twitch } from "../../content/img/logo/TwitchExtrudedWordmarkPurple.svg";
+import { ReactComponent as Artvee } from "../../content/img/logo/artvee.svg";
 
-function GameBox() {
+function PaintingBox() {
   const dispatch = useDispatch();
-  const { games, isLoading } = useSelector((state) => state.game);
+  const { paintings, isLoading } = useSelector((state) => state.painting);
 
   useEffect(() => {
-    dispatch(getPopularGames());
+    dispatch(getRandomPaintings());
   }, []);
 
   if (isLoading) {
@@ -19,9 +19,9 @@ function GameBox() {
   return (
     <div className="popular-container">
       <div className="popular-header">
-        <h3>Popular Games from</h3>
-        <a href="https://twitch.tv/" target="_blank" rel="noreferrer">
-          <Twitch className="twitch"/>
+        <h3>Classical Art from</h3>
+        <a href="https://artvee.com/" target="_blank" rel="noreferrer">
+          <Artvee className="artvee"/>
         </a>
       </div>
       <ScrollContainer
@@ -29,14 +29,14 @@ function GameBox() {
         vertical={false}
         hideScrollbars={true}
       >
-        {games?.map((game) => (
-          <Fragment key={game.id}>
+        {paintings?.map((painting) => (
+          <Fragment key={painting.id}>
             <div className="box">
               <div>
                 <img
                   loading="lazy"
-                  alt={game.name}
-                  src={game.box_art_url}
+                  alt={painting.title}
+                  src={painting.image_url}
                 />
               </div>
             </div>
@@ -47,4 +47,4 @@ function GameBox() {
   );
 }
 
-export default GameBox;
+export default PaintingBox;
