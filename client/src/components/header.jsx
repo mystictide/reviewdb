@@ -1,24 +1,50 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout, reset } from "../features/auth/authSlice";
+import { reset } from "../features/auth/authSlice";
+import { FaAngleDown } from "react-icons/fa";
 import RegisterModal from "./account/register";
 import LoginModal from "./account/login";
-import { registrymodalSlice } from '../features/helpers/registrymodalSlice'
-import { loginmodalSlice } from '../features/helpers/loginmodalSlice'
+import UserDropDown from "./user/userDropdown";
+import {
+  accountModalSlice,
+  resetState,
+} from "../features/helpers/accountModalSlice";
+import { dropdownSlice } from "../features/helpers/dropdownSlice";
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
-  const { loginModalState } = useSelector((state) => state.loginModal);
-  const { registryModalState } = useSelector((state) => state.registryModal);
+  const { user, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+  const { loginModalState, registryModalState } = useSelector(
+    (state) => state.accountModal
+  );
+  const { userDropdownState } = useSelector((state) => state.dropdown);
 
-  const onLogout = () => {
-    dispatch(logout());
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (isSuccess || user) {
+      dispatch(resetState());
+      navigate("/");
+    }
     dispatch(reset());
-    navigate("/");
-  };
+  }, [
+    user,
+    isError,
+    isSuccess,
+    message,
+    loginModalState,
+    registryModalState,
+    userDropdownState,
+    navigate,
+    dispatch,
+  ]);
 
   return (
     <>
@@ -29,15 +55,37 @@ const Header = () => {
           </div>
           <ul>
             {user ? (
-              <li>
-                <button onClick={onLogout}>LOGOUT</button>
-              </li>
+              <>
+                <li
+                  onMouseLeave={() => {
+                    dispatch(dropdownSlice.actions.resetDropdownState());
+                  }}
+                >
+                  <button
+                    onClick={() => {
+                      dispatch(dropdownSlice.actions.updateUserDropdownState());
+                    }}
+                    onMouseEnter={() => {
+                      dispatch(dropdownSlice.actions.updateUserDropdownState());
+                    }}
+                  >
+                    {user.username.toUpperCase()} <FaAngleDown />
+                  </button>
+                  {userDropdownState ? <UserDropDown /> : ""}
+                </li>
+                <li>
+                  <button>LATEST</button>
+                </li>
+                <li>
+                  <button>FRIENDS</button>
+                </li>
+              </>
             ) : (
               <>
                 <li>
                   <button
                     onClick={() => {
-                      dispatch(loginmodalSlice.actions.update());
+                      dispatch(accountModalSlice.actions.updateLogin());
                     }}
                   >
                     LOGIN
@@ -45,9 +93,9 @@ const Header = () => {
                 </li>
                 <li>
                   <button
-                      onClick={() => {
-                        dispatch(registrymodalSlice.actions.update());
-                      }}
+                    onClick={() => {
+                      dispatch(accountModalSlice.actions.updateRegistry());
+                    }}
                   >
                     REGISTER
                   </button>

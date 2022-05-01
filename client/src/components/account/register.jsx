@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { FaTimes } from "react-icons/fa";
-import { register, reset } from "../../features/auth/authSlice";
-import Spinner from "../../components/spinner";
-import { registrymodalSlice } from '../../features/helpers/registrymodalSlice'
+import { register } from "../../features/auth/authSlice";
+import { accountModalSlice } from '../../features/helpers/accountModalSlice'
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -17,22 +15,22 @@ function Register() {
 
   const { username, email, password, cpassword } = formData;
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
+  // const { user, isLoading, isError, isSuccess, message } = useSelector(
+  //   (state) => state.auth
+  // );
 
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-    if (isSuccess || user) {
-      navigate("/");
-    }
-    dispatch(reset());
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+  // useEffect(() => {
+  //   if (isError) {
+  //     toast.error(message);
+  //   }
+  //   if (isSuccess || user) {
+  //     dispatch(accountModalSlice.reset())
+  //     navigate("/");
+  //   }
+  //   dispatch(reset());
+  // }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -51,9 +49,9 @@ function Register() {
     }
   };
 
-  if (isLoading) {
-    return <Spinner></Spinner>;
-  }
+  // if (isLoading) {
+  //   return <Spinner></Spinner>;
+  // }
   return (
     <>
       <div className="account-container">
@@ -62,7 +60,7 @@ function Register() {
           <section className="heading">
             <h1>Join ReviewDB</h1>
             <FaTimes onClick={() => {
-              dispatch(registrymodalSlice.actions.update())
+              dispatch(accountModalSlice.actions.updateRegistry())
             }}/>
           </section>
           <section className="form">

@@ -6,8 +6,8 @@ import gameReducer from "../features/game/gameSlice";
 import paintingReducer from "../features/art/paintingSlice";
 import poemReducer from "../features/art/poemSlice";
 import bookReducer from "../features/book/bookSlice";
-import loginmodalReducer from "../features/helpers/loginmodalSlice";
-import registrymodalReducer from "../features/helpers/registrymodalSlice";
+import accountModalReducer from "../features/helpers/accountModalSlice";
+import dropdownReducer from "../features/helpers/dropdownSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,7 +18,7 @@ export const store = configureStore({
     painting: paintingReducer,
     poem: poemReducer,
     book: bookReducer,
-    loginModal: loginmodalReducer,
-    registryModal: registrymodalReducer,
+    accountModal: accountModalReducer,
+    dropdown: dropdownReducer,
   },
 });

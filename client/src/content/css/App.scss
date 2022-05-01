@@ -134,6 +134,7 @@ body {
                     }
 
                     button {
+                        @include transition();
                         text-align: center;
                         padding: 0 0.85rem;
                         background: transparent;
@@ -141,9 +142,12 @@ body {
                         color: $flavor-color;
                         cursor: pointer;
                         height: 100%;
+                        svg {
+                            margin-bottom: 2px;
+                            align-self: center;
+                            vertical-align: middle;
+                        }
                     }
-
-                    @include transition();
                     &:hover {
                         @include transition();
                         cursor: pointer;
@@ -154,6 +158,32 @@ body {
 
                         a {
                             color: $main-color;
+                        }
+                    }
+                }
+            }
+        }
+
+        .user-dropdown {
+            display: block;
+            position: absolute;
+            width: 129px;
+            top: 60px;
+
+            .dropdown-content {
+                ul {
+                    background-color: $bg-lighter;
+                    display: flex;
+                    flex-direction: column;
+                    li {
+                        text-align: center;
+                        padding: 7px;
+                        @include transition();
+                        z-index: 999;
+                        &:hover {
+                            @include transition();
+                            cursor: pointer;
+                            background-color: $bg-lighter;
                         }
                     }
                 }
@@ -199,7 +229,7 @@ body {
                 svg {
                     font-size: 1.8rem;
                     color: $bg-lighter;
-                    &:hover{
+                    &:hover {
                         color: $flavor-color;
                         cursor: pointer;
                     }
@@ -243,6 +273,7 @@ body {
 
     .main {
         width: 100%;
+        min-height: 80vh;
         padding-bottom: 2.5rem;
         background-color: $bg-main;
 
@@ -308,7 +339,12 @@ body {
                         display: block;
                         text-align: center;
                         margin-top: 1rem;
-                        a {
+                        button {
+                            color: $flavor-color;
+                            background: none;
+                            border: none;
+                            padding: 0;
+                            cursor: pointer;
                             &:hover {
                                 color: $main-color;
                             }
@@ -432,8 +468,9 @@ body {
 
     footer {
         display: block;
-        position: absolute;
-        bottom: 0;
+        position: relative;
+        // position: absolute;
+        // bottom: 0;
         width: 100%;
         background-color: $bg-lighter;
         border-top: 1px solid rgb(149, 92, 255, 0.4);

@@ -1,7 +1,11 @@
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { accountModalSlice } from "../../features/helpers/accountModalSlice";
+
 
 const Opener = () => {
-   return (
+  const dispatch = useDispatch();
+
+  return (
     <div className="opener-container">
       <div className="opener-bg">
         <div className="bg-img"></div>
@@ -10,7 +14,13 @@ const Opener = () => {
         <p>
           The social database for your thoughts on all kinds of art and media
           <span>
-            <Link to="/account/register">Join in</Link>
+            <button
+              onClick={() => {
+                dispatch(accountModalSlice.actions.updateRegistry());
+              }}
+            >
+              Join in
+            </button>
           </span>
         </p>
       </div>
