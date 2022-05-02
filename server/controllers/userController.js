@@ -80,9 +80,37 @@ const generateToken = (id) => {
   });
 };
 
+// @desc    Checks for an existing username
+// @route   GET /api/users/cusername
+// @access  Private
+const checkExistingUsername = asyncHandler(async (req, res) => {
+  const username = req.body.data;
+  existing = await User.findOne({ username: username });
+  if (existing) {
+    res.status(200).json(false);
+  } else {
+    res.status(200).json(true);
+  }
+});
+
+// @desc    Checks for an existing email address
+// @route   GET /api/users/cmail
+// @access  Private
+const checkExistingEmail = asyncHandler(async (req, res) => {
+  const email = req.body.data;
+  existing = await User.findOne({ email: email });
+  if (existing) {
+    res.status(200).json(false);
+  } else {
+    res.status(200).json(true);
+  }
+});
+
 module.exports = {
   registerUser,
   loginUser,
   getUser,
   generateToken,
+  checkExistingUsername,
+  checkExistingEmail,
 };

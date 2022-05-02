@@ -1,57 +1,100 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
 import { FaTimes } from "react-icons/fa";
 import { register } from "../../features/auth/authSlice";
-import { accountModalSlice } from '../../features/helpers/accountModalSlice'
+import { accountModalSlice } from "../../features/helpers/accountModalSlice";
+import {
+  checkExistingMail,
+  checkExistingUsername,
+} from "../../features/auth/validationSlice";
 
 function Register() {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
-    cpassword: "",
   });
 
-  const { username, email, password, cpassword } = formData;
+  const [formValidation, setFormValidation] = useState({
+    vUsername: false,
+    vEmail: false,
+    vPassword: true,
+  });
+
+  const { username, email, password } = formData;
+  const { vUsername, vEmail, vPassword } = formValidation;
+  const { usernameValidated, emailValidated } = useSelector(
+    (state) => state.validation
+  );
 
   const dispatch = useDispatch();
-
-  // const { user, isLoading, isError, isSuccess, message } = useSelector(
-  //   (state) => state.auth
-  // );
-
-  // useEffect(() => {
-  //   if (isError) {
-  //     toast.error(message);
-  //   }
-  //   if (isSuccess || user) {
-  //     dispatch(accountModalSlice.reset())
-  //     navigate("/");
-  //   }
-  //   dispatch(reset());
-  // }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+    setTimeout(() => {
+      validateFields(e);
+    }, 1500);
+  };
+
+  const validateFields = (e) => {
+    if (e.target.name === "username") {
+      if (e.target.value.length > 0) {
+        dispatch(checkExistingUsername(e.target.value));
+        if (usernameValidated) {
+          setFormValidation((prevState) => ({
+            ...prevState,
+            vUsername: true,
+          }));
+        }
+        else {
+          setFormValidation((prevState) => ({
+            ...prevState,
+            vUsername: false,
+          }));
+        }
+      }
+    }
+    if (e.target.name === "email") {
+      if (e.target.value.length > 0) {
+        dispatch(checkExistingMail(e.target.value));
+        if (emailValidated) {
+          setFormValidation((prevState) => ({
+            ...prevState,
+            vEmail: true,
+          }));
+        }
+        else {
+          setFormValidation((prevState) => ({
+            ...prevState,
+            vEmail: false,
+          }));
+        }
+      }
+    }
+    if (e.target.name === "password") {
+      if (e.target.value.length > 6) {
+        setFormValidation((prevState) => ({
+          ...prevState,
+          vPassword: false,
+        }));
+      } else {
+        setFormValidation((prevState) => ({
+          ...prevState,
+          vPassword: true,
+        }));
+      }
+    }
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (password !== cpassword) {
-      toast.error("Passwords do not match");
-    } else {
-      const userData = { username, email, password };
-      dispatch(register(userData));
-    }
+    const userData = { username, email, password };
+    dispatch(register(userData));
   };
 
-  // if (isLoading) {
-  //   return <Spinner></Spinner>;
-  // }
   return (
     <>
       <div className="account-container">
@@ -59,9 +102,11 @@ function Register() {
         <div className="account-content">
           <section className="heading">
             <h1>Join ReviewDB</h1>
-            <FaTimes onClick={() => {
-              dispatch(accountModalSlice.actions.updateRegistry())
-            }}/>
+            <FaTimes
+              onClick={() => {
+                dispatch(accountModalSlice.actions.updateRegistry());
+              }}
+            />
           </section>
           <section className="form">
             <form className="form-group" onSubmit={onSubmit}>
@@ -75,6 +120,11 @@ function Register() {
                 placeholder="enter a username"
                 onChange={onChange}
               />
+              {vUsername ? (
+                <label className="error">Username already exists</label>
+              ) : (
+                ""
+              )}
               <label>Email address</label>
               <input
                 type="email"
@@ -85,6 +135,13 @@ function Register() {
                 placeholder="enter an email address"
                 onChange={onChange}
               />
+              {vEmail ? (
+                <label className="error">
+                  Email address already registered
+                </label>
+              ) : (
+                ""
+              )}
               <label>Password</label>
               <input
                 type="password"
@@ -95,16 +152,13 @@ function Register() {
                 placeholder="set a password"
                 onChange={onChange}
               />
-              <label>Confirm password</label>
-              <input
-                type="password"
-                className="form-control"
-                id="cpassword"
-                name="cpassword"
-                value={cpassword}
-                placeholder="confirm password"
-                onChange={onChange}
-              />
+              {vPassword ? (
+                <label className="error">
+                  Password requires more than 6 characters
+                </label>
+              ) : (
+                ""
+              )}
               <div className="form-group">
                 <button type="submit" className="btn-submit">
                   Register

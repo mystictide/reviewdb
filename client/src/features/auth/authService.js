@@ -26,10 +26,22 @@ const logout = async () => {
   localStorage.removeItem("user");
 };
 
+const checkExistingUsername = async (userData) => {
+  const response = await axios.post(API_URL, userData.username);
+  return response.data;
+};
+
+const checkExistingMail = async (userData) => {
+  const response = await axios.post(API_URL, userData.email);
+  return response.data;
+};
+
 const authService = {
   register,
   login,
   logout,
+  checkExistingMail,
+  checkExistingUsername,
 };
 
 export default authService;

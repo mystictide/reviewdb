@@ -8,6 +8,7 @@ import poemReducer from "../features/art/poemSlice";
 import bookReducer from "../features/book/bookSlice";
 import accountModalReducer from "../features/helpers/accountModalSlice";
 import dropdownReducer from "../features/helpers/dropdownSlice";
+import validationReducer from "../features/auth/validationSlice";
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
     book: bookReducer,
     accountModal: accountModalReducer,
     dropdown: dropdownReducer,
+    validation: validationReducer,
   },
 });
